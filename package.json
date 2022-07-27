@@ -14,6 +14,7 @@
     "scripts": {
         "start": "nodemon app.js",
         "prettier": "prettier --ignore-path .prettierignore --config prettier.config.js --write .",
-        "quickpush": "cls && git status && git add * && git commit * -m \"Updated Code\" && git push"
+        "quickpush": "cls && git status && git add * && git commit * -m \"Updated Code\" && git push",
+        "herokulogs": "heroku logs --tail --app medivoice"
     }
 }

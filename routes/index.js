@@ -38,7 +38,7 @@ router.post('/callback_url', async (req, res) => {
                 // Browser wants to dequeue a call - ignore this logic for now
             } else {
                 // Browser wants to make a call to a customer number
-                callActions = IVR_HELPER.converseViaBrowser({
+                callActions = ATVoice.converseViaBrowser({
                     role: 'VCC_TO_CUSTOMER',
                     customerNumber: clientDialedNumber,
                 });
@@ -46,6 +46,9 @@ router.post('/callback_url', async (req, res) => {
         } else {
             // Here we assume the call is incoming from a customer to the hospital
             // Lead customer to survey form: DTMF
+            callActions = ATVoice.saySomething({
+                speech: 'Hello world!',
+            });
         }
 
         responseAction = `<?xml version="1.0" encoding="UTF-8"?><Response>${callActions}</Response>`;
