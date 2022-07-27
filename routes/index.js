@@ -69,6 +69,7 @@ router.post('/callback_url', async (req, res) => {
 
 router.post('/survey', (req, res) => {
     let callActions,
+        responseAction,
         done = false,
         pressedKey = req.body.dtmfDigits;
 
