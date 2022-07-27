@@ -167,13 +167,10 @@ class VoiceHelper {
             );
         }
 
-        if (!timeout) {
-            throw new Error(`Provide "timeout" for survey`);
-        }
         if (!callbackUrl) {
             throw new Error(`Provide "callbackUrl" for survey`);
         }
-
+        timeout = timeout || 10;
         fallbackNotice =
             fallbackNotice || 'Sorry, we did not get your feedback. Goodbye.';
 
