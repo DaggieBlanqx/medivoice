@@ -80,6 +80,7 @@ router.post('/survey', (req, res) => {
         if (pressedKey == 1) {
             callActions = ATVoice.partialRecord({
                 introductionText: `Our doctor is currently seeing another patient. He will attend to you shortly, In the meantime, tell us how you are feeling and then press the hashkey.`,
+                audioProcessingUrl: null,
             });
             done = true;
         } else if (pressedKey == 2) {
