@@ -139,6 +139,19 @@ class VoiceHelper {
 
         return callActions;
     }
+
+    linkCustomerToOfflineAgent({ offline_phone, ringbackTone }) {
+        let callAction;
+        if (!offline_phone) {
+            throw new Error(`Missing: "offline_phone"`);
+        }
+        if (!ringbackTone) {
+            throw new Error(`Missing: "ringbackTone"`);
+        }
+
+        callAction = `<Dial phoneNumbers="${offline_phone},${this.AT_virtualNumber}" ringbackTone="${ringbackTone}" record="true"  sequential="true" />`;
+        return callAction;
+    }
 }
 
 module.exports = {
