@@ -1,5 +1,6 @@
 'use strict';
 const router = require('express').Router();
+const e = require('express');
 const { VoiceHelper } = require('../utils/IVR_helpers');
 
 let AT_apiKey = process.env.AT_APP_APIKEY,
@@ -51,8 +52,9 @@ router.post('/callback_url', async (req, res) => {
             // Here we assume the call is incoming from a customer to the hospital
             // Lead customer to survey form: DTMF
             callActions = ATVoice.survey({
-                textPrompt: `Hello. Welcome to Medi voice hospital. Press 1 to record your symptoms. Press 2 to speak to Doctor Michael. After selecting your option, press the hash key`,
+                textPrompt: `Welcome to A T hospital. Press 1 to record your symptoms. Press 2 to speak to Doctor Michael. After selecting your option, press the hash key`,
                 finishOnKey: '#',
+                timeout: 7,
                 callbackUrl: `${APP_URL}/survey`,
             });
         }
@@ -66,14 +68,18 @@ router.post('/callback_url', async (req, res) => {
     }
 });
 
-router.get('/survey', (req, res) => {
-    console.log(`[get]: for survey`);
-    res.end();
-});
 router.post('/survey', (req, res) => {
+    let selection = req.body.dtmfDigits;
+
+    if (!isNaN(selection)) {
+        if (selection == 1) {
+        } else if (selection == 2) {
+        } else {
+        }
+    }
     console.log(`[post]: for survey`);
     console.log({
-        surveyBody: req.body,
+        surveyBody: selection,
     });
     res.end();
 });
