@@ -152,6 +152,43 @@ class VoiceHelper {
         callAction = `<Dial phoneNumbers="${offline_phone},${this.AT_virtualNumber}" ringbackTone="${ringbackTone}" record="true"  sequential="true" />`;
         return callAction;
     }
+
+    survey({
+        textPrompt,
+        audioPrompt,
+        timeout,
+        fallbackNotice,
+        finishOnKey,
+        callbackUrl,
+    }) {
+        if (!textPrompt && !audioPrompt) {
+            throw new Error(
+                `Provide atleast one: "textPrompt" or "audioPrompt"`
+            );
+        }
+
+        if (!timeout) {
+            throw new Error(`Provide "timeout" for survey`);
+        }
+        if (!callbackUrl) {
+            throw new Error(`Provide "callbackUrl" for survey`);
+        }
+
+        fallbackNotice =
+            fallbackNotice || 'Sorry, we did not get your feedback. Goodbye.';
+
+        let callAction = `<GetDigits timeout="${timeout}" finishOnKey="${finishOnKey}" callbackUrl="${callbackUrl}">`;
+
+        if (textPrompt) {
+            callAction += `<Say>${textPrompt}</Say>`;
+        } else if (audioPrompt) {
+            callAction += `<Play>${audioPrompt}</Play>`;
+        }
+
+        callAction += `</GetDigits><Say>${fallbackNotice}</Say>`;
+
+        return callAction;
+    }
 }
 
 module.exports = {
