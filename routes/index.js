@@ -69,19 +69,32 @@ router.post('/callback_url', async (req, res) => {
 });
 
 router.post('/survey', (req, res) => {
-    let selection = req.body.dtmfDigits;
+    let callActions,
+        done = false;
+    let pressedKey = req.body.dtmfDigits;
 
-    if (!isNaN(selection)) {
-        if (selection == 1) {
-        } else if (selection == 2) {
-        } else {
+    if (!isNaN(pressedKey)) {
+        console.log(`Pressed ${pressedKey}`);
+        if (pressedKey == 1) {
+            done = true;
+        } else if (pressedKey == 2) {
+            done = true;
         }
     }
+
+    if (!done) {
+        callActions = ATVoice.saySomething({
+            speech: 'Sorry, you did not press 1 nor 2. Goodbye.',
+        });
+    }
+
     console.log(`[post]: for survey`);
     console.log({
-        surveyBody: selection,
+        surveyBody: pressedKey,
     });
-    res.end();
+
+    responseAction = `<?xml version="1.0" encoding="UTF-8"?><Response>${callActions}</Response>`;
+    return res.send(responseAction);
 });
 
 const handleDTMF = () => {};
