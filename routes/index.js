@@ -72,7 +72,9 @@ router.post('/survey', (req, res) => {
         responseAction,
         done = false,
         pressedKey = req.body.dtmfDigits;
-
+    if (pressedKey === 'undefined') {
+        res.end();
+    }
     if (!isNaN(pressedKey)) {
         console.log(`Pressed ${pressedKey}`);
         if (pressedKey == 1) {
