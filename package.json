@@ -1,0 +1,19 @@
+{
+    "name": "voice-talk-demo",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "africastalking": "^0.5.5",
+        "axios": "^0.27.2",
+        "dotenv": "^16.0.1",
+        "ejs": "^3.1.8",
+        "elarian": "^0.2.25",
+        "express": "^4.18.1"
+    },
+    "scripts": {
+        "start": "nodemon app.js",
+        "prettier": "prettier --ignore-path .prettierignore --config prettier.config.js --write .",
+        "quickpush": "cls && git status && git add * && git commit * -m \"Updated Code\" && git push"
+    }
+}
