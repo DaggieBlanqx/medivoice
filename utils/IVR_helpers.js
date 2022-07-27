@@ -128,9 +128,6 @@ class VoiceHelper {
         if (!introductionText) {
             throw new Error(`Provide "introductionText"`);
         }
-        if (!audioProcessingUrl) {
-            throw new Error(`Provide "audioProcessingUrl"`);
-        }
 
         maxDuration = maxDuration && maxDuration < 10 ? maxDuration : 10;
         maxTimeout = maxTimeout && maxTimeout < 10 ? maxTimeout : 10;

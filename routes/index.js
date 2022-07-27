@@ -1,6 +1,5 @@
 'use strict';
 const router = require('express').Router();
-const e = require('express');
 const { VoiceHelper } = require('../utils/IVR_helpers');
 
 let AT_apiKey = process.env.AT_APP_APIKEY,
@@ -70,14 +69,20 @@ router.post('/callback_url', async (req, res) => {
 
 router.post('/survey', (req, res) => {
     let callActions,
-        done = false;
-    let pressedKey = req.body.dtmfDigits;
+        done = false,
+        pressedKey = req.body.dtmfDigits;
 
     if (!isNaN(pressedKey)) {
         console.log(`Pressed ${pressedKey}`);
         if (pressedKey == 1) {
+            callActions = ATVoice.partialRecord({
+                introductionText: `Our doctor is currently seeing another patient. He will attend to you shortly, In the meantime, tell us how you are feeling and then press the hashkey.`,
+            });
             done = true;
         } else if (pressedKey == 2) {
+            callActions = ATVoice.linkCustomerToOfflineAgent({
+                offline_phone: '+254773841221',
+            });
             done = true;
         }
     }
@@ -96,9 +101,5 @@ router.post('/survey', (req, res) => {
     responseAction = `<?xml version="1.0" encoding="UTF-8"?><Response>${callActions}</Response>`;
     return res.send(responseAction);
 });
-
-const handleDTMF = () => {};
-const handleIncomingCall = () => {};
-const generateCapabilityToken = () => {};
 
 module.exports = router;
