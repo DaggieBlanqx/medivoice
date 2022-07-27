@@ -72,6 +72,9 @@ router.get('/survey', (req, res) => {
 });
 router.post('/survey', (req, res) => {
     console.log(`[post]: for survey`);
+    console.log({
+        surveyBody: req.body,
+    });
     res.end();
 });
 
