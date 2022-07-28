@@ -16,9 +16,29 @@ const ATVoice = new VoiceHelper({
 const CustomerSession = new Map();
 
 router.get('/', async (req, res) => {
+    // let callRepresentativeName = ATVoice.generateATClientName({
+    //     isForInitialization: true,
+    //     firstName: 'doctor',
+    // });
+    // const ct = await ATVoice.generateCapabilityToken({
+    //     callRepresentativeName,
+    // });
+    // ct.status === 'successful'
+    //     ? res.json({ ...ct.data })
+    //     : res.json({ failed: true });
+
+    res.render('keypad.html.ejs');
+});
+
+router.post('/capability-token', async (req, res) => {
+    console.log({
+        route: '/capability-token',
+        body: req.body,
+    });
+    let clientname = req.body.clientname || 'doctor';
     let callRepresentativeName = ATVoice.generateATClientName({
         isForInitialization: true,
-        firstName: 'doctor',
+        firstName: clientname,
     });
     const ct = await ATVoice.generateCapabilityToken({
         callRepresentativeName,
