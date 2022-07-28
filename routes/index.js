@@ -93,7 +93,7 @@ router.post('/survey', (req, res) => {
             let callRepresentativeName = ATVoice.generateATClientName({
                 firstName: 'browser1',
             });
-            callActions = IVR_HELPER.converseViaBrowser({
+            callActions = ATVoice.converseViaBrowser({
                 role: 'CUSTOMER_TO_VCC',
                 lastRegisteredClient: callRepresentativeName,
                 customerNumber: null,
@@ -104,6 +104,7 @@ router.post('/survey', (req, res) => {
             // });
             done = true;
         } else if (pressedKey == 2) {
+            console.log(`Passed other`);
             callActions = ATVoice.linkCustomerToOfflineAgent({
                 offline_phone: '+254773841221',
             });
