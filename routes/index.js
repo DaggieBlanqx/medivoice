@@ -14,6 +14,7 @@ const ATVoice = new VoiceHelper({
 });
 
 const CustomerSession = new Map();
+const CallAgents = new Map();
 
 router.get('/', async (req, res) => {
     res.render('keypad.html.ejs');
@@ -104,9 +105,14 @@ router.post('/survey', (req, res) => {
             // });
             done = true;
         } else if (pressedKey == 2) {
-            console.log(`Passed other`);
-            callActions = ATVoice.linkCustomerToOfflineAgent({
-                offline_phone: '+254773841221',
+            // console.log(`Passed other`);
+            // callActions = ATVoice.linkCustomerToOfflineAgent({
+            //     offline_phone: '+254773841221',
+            // });
+            // done = true;
+
+            callActions = ATVoice.saySomething({
+                speech: 'Sorry, you did not press 1 nor 2. Goodbye.',
             });
             done = true;
         }
