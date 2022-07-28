@@ -85,12 +85,23 @@ router.post('/survey', (req, res) => {
         res.end();
     }
     if (!isNaN(pressedKey)) {
+        pressedKey = Number(pressedKey);
+
         console.log(`Pressed ${pressedKey}`);
         if (pressedKey == 1) {
-            callActions = ATVoice.partialRecord({
-                introductionText: `Our doctor is currently seeing another patient. He will attend to you shortly, In the meantime, tell us how you are feeling and then press the hashkey.`,
-                audioProcessingUrl: null,
+            console.log(`Here pass`);
+            let callRepresentativeName = ATVoice.generateATClientName({
+                firstName: 'browser1',
             });
+            callActions = IVR_HELPER.converseViaBrowser({
+                role: 'CUSTOMER_TO_VCC',
+                lastRegisteredClient: callRepresentativeName,
+                customerNumber: null,
+            });
+            // callActions = ATVoice.partialRecord({
+            //     introductionText: `Our doctor is currently seeing another patient. He will attend to you shortly, In the meantime, tell us how you are feeling and then press the hashkey.`,
+            //     audioProcessingUrl: null,
+            // });
             done = true;
         } else if (pressedKey == 2) {
             callActions = ATVoice.linkCustomerToOfflineAgent({
