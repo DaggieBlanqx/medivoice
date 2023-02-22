@@ -35,6 +35,22 @@ try {
      *
      */
 
+    var uiChange_callIncoming = (from) => {
+        new Gradientify({
+            ...gradientifyPresets,
+            gradients: [
+                `linear-gradient(60deg, rgb(50, 234, 22), rgb(195, 168, 21))`,
+                `linear-gradient(10deg, rgb(28, 190, 24), rgb(43, 188, 24))`,
+                `radial-gradient(rgb(28, 190, 24), rgb(43, 188, 24))`,
+            ],
+        });
+
+        jQuery('.keypadHolder').hide();
+        jQuery('#status').text(`Incoming call from ${from}`);
+        jQuery('#call').css('background-color', 'green');
+        // currentlyOnCall = true;
+    };
+
     var uiChange_callInProgress = () => {
         new Gradientify({
             ...gradientifyPresets,
@@ -145,15 +161,15 @@ try {
                 function (incomingcallLog) {
                     var from = incomingcallLog.from;
                     console.log({ incomingcallLog });
-                    uiChange_callIncoming(from);
+                    // uiChange_callIncoming(from);
 
-                    jQuery('#call').hide();
-                    jQuery('#receive').show();
-                    jQuery('#receive').css('background-color', 'green');
-
+                    // jQuery('#call').hide();
+                    // jQuery('#receive').show();
+                    jQuery('#call').css('background-color', 'orange');
+                    jQuery('#status').text(`Incoming call from ${from}`);
                     // EMIT INCOMINGCALL EVENT TO SERVER
 
-                    jQuery('#receive').on('click', function (e) {
+                    jQuery('#call').on('click', function (e) {
                         e.preventDefault();
                         ATClient.answer();
                     });

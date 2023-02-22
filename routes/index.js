@@ -12,10 +12,6 @@ const ATVoice = new VoiceHelper({
     AT_username,
     AT_virtualNumber,
 });
-
-const CustomerSession = new Map();
-const CallAgents = new Map();
-
 router.get('/', async (req, res) => {
     res.render('keypad.html.ejs');
 });
@@ -61,11 +57,19 @@ router.post('/callback_url', async (req, res) => {
             // Here we assume the call is incoming from a customer to the hospital
             // Lead customer to survey form: DTMF
             callActions = ATVoice.survey({
-                textPrompt: `Welcome to A T hospital. Press 1 to record your symptoms. Press 2 to speak to Doctor Michael. After selecting your option, press the hash key`,
+                textPrompt: `Welcome to A T hospital. Press 1 to record your symptoms. After selecting your option, press the hash key`,
                 finishOnKey: '#',
                 timeout: 7,
                 callbackUrl: `${APP_URL}/survey`,
             });
+
+            // callActions = ATVoice.converseViaBrowser({
+            //     role: 'CUSTOMER_TO_VCC',
+            //     lastRegisteredClient: ATVoice.generateATClientName({
+            //         firstName: 'browser1',
+            //     }),
+            //     customerNumber: null,
+            // });
         }
 
         responseAction = `<?xml version="1.0" encoding="UTF-8"?><Response>${callActions}</Response>`;
@@ -94,23 +98,12 @@ router.post('/survey', (req, res) => {
             let callRepresentativeName = ATVoice.generateATClientName({
                 firstName: 'browser1',
             });
-            callActions = ATVoice.converseViaBrowser({
-                role: 'CUSTOMER_TO_VCC',
-                lastRegisteredClient: callRepresentativeName,
-                customerNumber: null,
+            callActions = ATVoice.partialRecord({
+                introductionText: `Our doctor is currently seeing another patient. He will attend to you shortly, In the meantime, tell us how you are feeling and then press the hashkey.`,
+                audioProcessingUrl: null,
             });
-            // callActions = ATVoice.partialRecord({
-            //     introductionText: `Our doctor is currently seeing another patient. He will attend to you shortly, In the meantime, tell us how you are feeling and then press the hashkey.`,
-            //     audioProcessingUrl: null,
-            // });
             done = true;
-        } else if (pressedKey == 2) {
-            // console.log(`Passed other`);
-            // callActions = ATVoice.linkCustomerToOfflineAgent({
-            //     offline_phone: '+254773841221',
-            // });
-            // done = true;
-
+        } else {
             callActions = ATVoice.saySomething({
                 speech: 'Sorry, you did not press 1 nor 2. Goodbye.',
             });

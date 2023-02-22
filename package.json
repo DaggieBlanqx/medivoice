@@ -16,5 +16,9 @@
         "prettier": "prettier --ignore-path .prettierignore --config prettier.config.js --write .",
         "quickpush": "cls && git status && git add * && git commit * -m \"Updated Code\" && git push",
         "herokulogs": "heroku logs --tail --app medivoice"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.20",
+        "prettier": "^2.8.4"
     }
 }
